@@ -1,6 +1,10 @@
 node_modules
 # Next.js build output
 .next/
+
+# Supabase build output
+.supabase/
+
 # Build directories
 build/
 dist/
@@ -21,4 +25,25 @@ yarn-error.log*
 *.mp3
 *.wav
 *.avi
+
+# Large file types
+*.zip
+*.tar
+*.gz
+*.iso
+*.rar
+*.7z
+
+# Dependencies and build artifacts
+/dist
+/coverage
+/.nyc_output
+/.webpack
+/.build
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
 
