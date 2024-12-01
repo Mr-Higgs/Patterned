@@ -16,7 +16,7 @@ export default function ProfileManagement() {
         const { data, error } = await supabase
           .from('profiles')
           .select('*')
-          .eq('id', '1') // Replace '1' with the actual user ID
+          .eq('id', user.id) // Replace '1' with the actual user ID
           .single()
 
         if (error) throw error
@@ -60,7 +60,7 @@ export default function ProfileManagement() {
       const { error } = await supabase
         .from('profiles')
         .update(updates)
-        .eq('id', '1') // Replace '1' with the actual user ID)
+        .eq('id', user.id) // Replace '1' with the actual user ID)
 
       if (error) throw error
       alert('Profile updated successfully!')

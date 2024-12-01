@@ -10,12 +10,25 @@ export default function Header() {
     <header className="bg-primary text-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
-            <Link href="/" className="text-xl font-bold">
+          <div className="flex items-center md:hidden">
+            <Link href="/" className="text-xl font-bold mr-4">
               Patterned
             </Link>
           </div>
-          <nav className="hidden md:block">
+          <div className="flex items-center md:hidden">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="text-background hover:text-accent focus:outline-none focus:text-accent"
+            >
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
+          <nav className="hidden md:flex md:items-center md:justify-between md:flex-1">
+            <Link href="/" className="text-xl font-bold">
+              Patterned
+            </Link>
             <ul className="flex space-x-4">
               <li>
                 <Link href="/" className="hover:text-accent">
@@ -34,16 +47,6 @@ export default function Header() {
               </li>
             </ul>
           </nav>
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-background hover:text-accent focus:outline-none focus:text-accent"
-            >
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-          </div>
         </div>
       </div>
       {/* Mobile menu, toggle classes based on menu state */}
