@@ -3,9 +3,9 @@
 import { useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { getSupabase, isSupabaseConfigured } from '../../lib/supabase'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
+import { getSupabase, isSupabaseConfigured } from '../../../lib/supabase'
+import Header from '../../components/Header'
+import Footer from '../../components/Footer'
 
 export default function SignUp() {
   const [email, setEmail] = useState('')
@@ -133,7 +133,7 @@ export default function SignUp() {
               </div>
             </form>
             <div className="text-sm text-center">
-              <Link href="/login" className="font-medium text-text hover:text-primary">
+              <Link href="/auth/login" className="font-medium text-text hover:text-primary">
                 Already have an account? Log in
               </Link>
             </div>
