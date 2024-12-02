@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '../../../lib/supabase'
-import { Briefcase, Calendar, DollarSign, User, LogOut, Menu, X } from 'lucide-react'
+import { Briefcase, Calendar, DollarSign, User, LogOut, Menu, X, HomeIcon } from 'lucide-react'
 
 const navItems = [
-  { href: '/dashboard/employer', icon: Briefcase, label: 'Dashboard' },
+  { href: '/dashboard/employer', icon: HomeIcon, label: 'Dashboard' },
   { href: '/dashboard/employer/jobs', icon: Briefcase, label: 'Jobs' },
   { href: '/dashboard/employer/availability', icon: Calendar, label: 'Availability' },
   { href: '/dashboard/employer/earnings', icon: DollarSign, label: 'Earnings' },
