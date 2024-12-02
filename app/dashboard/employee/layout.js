@@ -4,12 +4,12 @@ import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '../../../lib/supabase'
-import { Briefcase, Calendar, DollarSign, User, LogOut, Menu, X, Settings, HelpCircle } from 'lucide-react'
-import { Avatar, AvatarFallback, AvatarImage } from "lucide-react"
+import { Briefcase, Calendar, DollarSign, User, LogOut, Menu, X, Settings, HelpCircle, HomeIcon } from 'lucide-react'
+import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar"
 import { UserProvider, useUser } from '../../context/useContext'
 
 const navItems = [
-  { href: '/dashboard/employee', icon: Briefcase, label: 'Dashboard' },
+  { href: '/dashboard/employee', icon: HomeIcon, label: 'Dashboard' },
   { href: '/dashboard/employee/jobs', icon: Briefcase, label: 'Jobs' },
   { href: '/dashboard/employee/availability', icon: Calendar, label: 'Availability' },
   { href: '/dashboard/employee/earnings', icon: DollarSign, label: 'Earnings' },
@@ -113,15 +113,15 @@ function DashboardContent({ children }) {
                 </button>
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
-                    <Link href="/dashboard/settings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <Link href="/dashboard/employee/settings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                       <Settings className="inline-block w-4 h-4 mr-2" />
                       Settings
                     </Link>
-                    <Link href="/dashboard/account" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <Link href="/dashboard/employee/account" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                       <User className="inline-block w-4 h-4 mr-2" />
                       My Account
                     </Link>
-                    <Link href="/dashboard/support" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <Link href="/dashboard/employee/support" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                       <HelpCircle className="inline-block w-4 h-4 mr-2" />
                       Support & Resources
                     </Link>
