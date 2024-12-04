@@ -9,17 +9,24 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#423D4E',
-          light: '#575267',
-          dark: '#2D2936',
+          DEFAULT: '#259051',
+          light: '#ff7816',
+          dark: '#ff6017',
         },
-        secondary: '#8C6057',
-        accent: '#EBC59E',
-        background: '#F2E9E4',
-        text: '#2D2936',
-      },
-      borderColor: {
-        DEFAULT: 'hsl(var(--border))',
+        secondary: {
+          DEFAULT: '#f15922',
+          light: '#2aa65c',
+          dark: '#1f7443',
+        },
+        neutral: {
+          cream: '#FFF5E9',
+          sand: '#F5E6D3',
+          brown: '#8B7355',
+          stone: '#2C2C2C',
+        },
+        accent: '#ff7816',
+        background: '#FFFFFF',
+        text: '#000000',
       },
     },
   },

@@ -1,136 +1,144 @@
 'use client'
-
-import { useState, useCallback } from 'react'
-import { useRouter } from 'next/navigation'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { getSupabase, isSupabaseConfigured } from '../../../lib/supabase'
+import { useState } from 'react'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { useRouter } from 'next/navigation'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 
-export default function Login() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState(null)
-  const router = useRouter()
+export default function LoginPage() {
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [error, setError] = useState(null)
+    const router = useRouter()
+    const supabase = createClientComponentClient()
 
-  const handleLogin = useCallback(async (e) => {
-    e.preventDefault()
-    if (!isSupabaseConfigured) {
-      setError('Supabase is not configured. Please check your environment variables.')
-      return
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        try {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            })
+            
+            if (error) throw error
+
+            // Get user type to determine redirect path
+            const userType = data.user.user_metadata.user_type || data.user.user_metadata.role
+            const redirectPath = userType === 'employee' ? '/dashboard/employee' : '/dashboard/employer'
+            
+            // Use replace instead of push to avoid back button issues
+            await router.replace(redirectPath)
+            
+        } catch (error) {
+            console.error('Login error:', error)
+            setError(error.message)
+        }
     }
-    try {
-      const supabase = getSupabase()
-      const { data: { user }, error: signInError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      })
 
-      if (signInError) throw signInError
+    return (
+        <div className="min-h-screen bg-neutral-cream">
+            <Header />
+            <main className="pb-16">
+                {/* Hero Section */}
+                <motion.section 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="bg-gradient-to-br from-primary to-primary/80 text-white py-20 px-4"
+                >
+                    <div className="max-w-7xl mx-auto text-center">
+                        <motion.h1 
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.2 }}
+                            className="text-5xl font-bold mb-6"
+                        >
+                            Welcome Back
+                        </motion.h1>
+                        <motion.p 
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.4 }}
+                            className="text-xl text-white/90 max-w-2xl mx-auto"
+                        >
+                            Sign in to access your Patterned account
+                        </motion.p>
+                    </div>
+                </motion.section>
 
-      // Fetch user profile to get the role
-      const { data: profiles, error: profileError } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
-
-      if (profileError) throw profileError
-
-      if (!profiles || profiles.length === 0) {
-        throw new Error('User profile not found')
-      }
-
-      const profile = profiles[0] // Take the first profile if multiple exist
-
-      // Redirect based on user role
-      switch (profile.role) {
-        case 'admin':
-          router.push('/dashboard/admin')
-          break
-        case 'employer':
-          router.push('/dashboard/employer')
-          break
-        case 'employee':
-          router.push('/dashboard/employee')
-          break
-        default:
-          throw new Error('Invalid user role')
-      }
-    } catch (error) {
-      setError(error.message)
-    }
-  }, [email, password, router])
-
-  return (
-    <div className="flex flex-col min-h-screen bg-background">
-      <Header />
-      <main className="flex-grow">
-        <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-md w-full space-y-8">
-            <div>
-              <h2 className="mt-6 text-center text-3xl font-extrabold text-text">Log in to your account</h2>
-            </div>
-            {!isSupabaseConfigured && (
-              <div className="bg-accent border border-secondary text-text px-4 py-3 rounded relative" role="alert">
-                <strong className="font-bold">Error:</strong>
-                <span className="block sm:inline"> Supabase is not configured. Please check your environment variables.</span>
-              </div>
-            )}
-            <form className="mt-8 space-y-6" onSubmit={handleLogin}>
-              <div className="rounded-md shadow-sm -space-y-px">
-                <div>
-                  <label htmlFor="email-address" className="sr-only">Email address</label>
-                  <input
-                    id="email-address"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    required
-                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-text rounded-t-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
-                    placeholder="Email address"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
+                {/* Login Form Card */}
+                <div className="max-w-md mx-auto px-4 py-16">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="bg-white rounded-xl shadow-lg overflow-hidden"
+                    >
+                        <div className="p-8">
+                            <h2 className="text-2xl font-semibold text-neutral-stone mb-6 text-center">
+                                Login to Your Account
+                            </h2>
+                            {error && (
+                                <div className="bg-red-50 text-red-500 p-4 rounded-lg mb-6">
+                                    {error}
+                                </div>
+                            )}
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                <div>
+                                    <label className="block text-neutral-stone/80 mb-2">Email Address</label>
+                                    <input 
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                        className="w-full px-4 py-2 rounded-lg border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-neutral-stone/80 mb-2">Password</label>
+                                    <input 
+                                        type="password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                        className="w-full px-4 py-2 rounded-lg border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                    />
+                                </div>
+                                <motion.button 
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    type="submit"
+                                    className="w-full px-8 py-3 bg-primary text-white font-semibold rounded-lg shadow-lg hover:bg-primary-dark transition-colors"
+                                >
+                                    Sign In
+                                </motion.button>
+                            </form>
+                            <div className="mt-6 text-center">
+                                <Link 
+                                    href="/auth/reset-password"
+                                    className="text-primary hover:text-primary-dark transition-colors"
+                                >
+                                    Forgot your password?
+                                </Link>
+                            </div>
+                        </div>
+                        <div className="bg-neutral-50 p-6 text-center border-t border-neutral-100">
+                            <p className="text-neutral-stone/80">
+                                Don't have an account?{' '}
+                                <Link 
+                                    href="/auth/signup"
+                                    className="text-primary hover:text-primary-dark transition-colors font-semibold"
+                                >
+                                    Sign up
+                                </Link>
+                            </p>
+                        </div>
+                    </motion.div>
                 </div>
-                <div>
-                  <label htmlFor="password" className="sr-only">Password</label>
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autoComplete="current-password"
-                    required
-                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-text rounded-b-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              {error && <div className="text-background bg-secondary px-4 py-2 rounded-md text-sm">{error}</div>}
-
-              <div>
-                <button type="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-background bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" disabled={!isSupabaseConfigured}>
-                  Log In
-                </button>
-              </div>
-            </form>
-            <div className="text-sm text-center">
-              <Link href="/auth/signup" className="font-medium text-text hover:text-primary">
-                Don't have an account? Sign up
-              </Link>
-            </div>
-            <div className="text-sm text-center">
-              <Link href="/reset-password" className="font-medium text-text hover:text-primary">
-                Forgot your password?
-              </Link>
-            </div>
-          </div>
+            </main>
+            <Footer />
         </div>
-      </main>
-      <Footer />
-    </div>
-  )
+    )
 }
 

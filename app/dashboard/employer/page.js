@@ -1,19 +1,20 @@
-import ActiveShifts from '../../dashboard/components/ActiveShifts'
-import BulletinMessages from '../../dashboard/components/BulletinMessages'
-import UserMetrics from '../../dashboard/components/UserMetrics'
-import FavoriteEmployers from '../../dashboard/components/FavoriteEmployers'
+'use client'
+import { motion } from 'framer-motion'
+import DashboardLayout from '../../components/DashboardLayout'
 
-
-export default function DashboardPage() {
-  return (
-    <div className="space-y-6 p-6">
-      <h1 className="text-3xl font-bold text-gray-900">Employeer!</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <ActiveShifts />
-        <BulletinMessages />
-      </div>
-      <UserMetrics />
-      <FavoriteEmployers />
-    </div>
-  )
+export default function EmployerDashboard() {
+    return (
+        <DashboardLayout>
+            <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-6"
+            >
+                <h1 className="text-3xl font-bold text-neutral-stone mb-6">
+                    Employer Dashboard
+                </h1>
+                {/* Add your employer dashboard content here */}
+            </motion.div>
+        </DashboardLayout>
+    )
 }

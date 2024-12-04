@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { supabase } from '../../../lib/supabase'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Briefcase, Calendar, DollarSign, User, LogOut, Menu, X, Settings, HelpCircle, HomeIcon } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar"
 import { UserProvider, useUser } from '../../context/useContext'
@@ -23,13 +23,25 @@ function DashboardContent({ children }) {
   const { userAvatar } = useUser()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const dropdownRef = useRef(null)
+  const supabase = createClientComponentClient()
 
   useEffect(() => {
     const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      setLoading(false)
-      if (!user) {
-        router.push('/login')
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession()
+        
+        if (error) throw error
+        
+        if (!session) {
+          router.push('/auth/login')
+          return
+        }
+
+        // Don't redirect here, let middleware handle routing
+        setLoading(false)
+      } catch (error) {
+        console.error('Layout error:', error)
+        setLoading(false)
       }
     }
     getUser()
@@ -50,7 +62,7 @@ function DashboardContent({ children }) {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
-    router.push('/login')
+    router.push('/auth/login')
   }
 
   if (loading) {
