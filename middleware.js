@@ -5,47 +5,36 @@ export async function middleware(req) {
     try {
         const res = NextResponse.next()
         const supabase = createMiddlewareClient({ req, res })
+        const { data: { session } } = await supabase.auth.getSession()
 
-        const {
-            data: { session },
-            error: sessionError
-        } = await supabase.auth.getSession()
-
-        if (sessionError) {
-            console.error('Session error:', sessionError)
-            return NextResponse.redirect(new URL('/auth/login', req.url))
+        // Define public routes
+        const publicRoutes = ['/auth/login', '/auth/signup', '/auth/verify', '/auth/callback']
+        if (publicRoutes.includes(req.nextUrl.pathname)) {
+            // Redirect logged-in users to their dashboard
+            if (session) {
+                const userType = session.user?.user_metadata?.user_type || session.user?.user_metadata?.role
+                const dashboardPath = userType === 'employee' ? '/dashboard/employee' : '/dashboard/employer'
+                return NextResponse.redirect(new URL(dashboardPath, req.url))
+            }
+            return res
         }
 
         // Protect dashboard routes
-        if (req.nextUrl.pathname.startsWith('/dashboard')) {
-            if (!session) {
-                console.log('No session found, redirecting to auth/login')
-                return NextResponse.redirect(new URL('/auth/login', req.url))
-            }
+        if (!session) {
+            return NextResponse.redirect(new URL('/auth/login', req.url))
+        }
 
-            // Get user type from session
-            const userType = session.user?.user_metadata?.user_type || session.user?.user_metadata?.role
-            console.log('User type:', userType)
+        const userType = session.user?.user_metadata?.user_type || session.user?.user_metadata?.role
+        const isEmployeeDashboard = req.nextUrl.pathname.startsWith('/dashboard/employee')
+        const isEmployerDashboard = req.nextUrl.pathname.startsWith('/dashboard/employer')
 
-            if (!userType) {
-                console.log('No user type found, redirecting to auth/login')
-                return NextResponse.redirect(new URL('/auth/login', req.url))
-            }
-
-            // Check for unauthorized access attempts
-            const isEmployeeDashboard = req.nextUrl.pathname.startsWith('/dashboard/employee')
-            const isEmployerDashboard = req.nextUrl.pathname.startsWith('/dashboard/employer')
-
-            // Only redirect if user tries to access the wrong dashboard
-            if (isEmployeeDashboard && userType === 'employer') {
-                console.log('Unauthorized access to employee dashboard, redirecting to employer dashboard')
-                return NextResponse.redirect(new URL('/dashboard/employer', req.url))
-            }
-            
-            if (isEmployerDashboard && userType === 'employee') {
-                console.log('Unauthorized access to employer dashboard, redirecting to employee dashboard')
-                return NextResponse.redirect(new URL('/dashboard/employee', req.url))
-            }
+        // Redirect based on user type
+        if (isEmployeeDashboard && userType !== 'employee') {
+            return NextResponse.redirect(new URL('/dashboard/employer', req.url))
+        }
+        
+        if (isEmployerDashboard && userType !== 'employer') {
+            return NextResponse.redirect(new URL('/dashboard/employee', req.url))
         }
 
         return res
@@ -56,5 +45,8 @@ export async function middleware(req) {
 }
 
 export const config = {
-    matcher: ['/dashboard/:path*']
+    matcher: [
+        '/dashboard/:path*',
+        '/auth/:path*'
+    ]
 }

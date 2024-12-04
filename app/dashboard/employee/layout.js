@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
@@ -17,35 +17,17 @@ const navItems = [
 ]
 
 function DashboardContent({ children }) {
-  const [loading, setLoading] = useState(true)
-  const router = useRouter()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const { userAvatar } = useUser()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const dropdownRef = useRef(null)
+  const router = useRouter()
   const supabase = createClientComponentClient()
 
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const { data: { session }, error } = await supabase.auth.getSession()
-        
-        if (error) throw error
-        
-        if (!session) {
-          router.push('/auth/login')
-          return
-        }
-
-        // Don't redirect here, let middleware handle routing
-        setLoading(false)
-      } catch (error) {
-        console.error('Layout error:', error)
-        setLoading(false)
-      }
-    }
-    getUser()
-  }, [router])
+  const handleSignOut = async () => {
+    await supabase.auth.signOut()
+    router.push('/auth/login')
+  }
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -59,17 +41,6 @@ function DashboardContent({ children }) {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
-
-  const handleSignOut = async () => {
-    await supabase.auth.signOut()
-    router.push('/auth/login')
-  }
-
-  if (loading) {
-    return <div className="flex items-center justify-center h-screen bg-gray-100">
-      <div className="text-2xl font-bold text-gray-800">Loading...</div>
-    </div>
-  }
 
   return (
     <div className="flex h-screen bg-gray-100">

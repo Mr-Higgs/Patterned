@@ -24,7 +24,7 @@ export default function DashboardLayout({ children }) {
       const { data: { user } } = await supabase.auth.getUser()
       setLoading(false)
       if (!user) {
-        router.push('/login')
+        router.push('/auth/login')
       }
     }
     getUser()
@@ -32,7 +32,7 @@ export default function DashboardLayout({ children }) {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
-    router.push('/login')
+    router.push('/auth/login')
   }
 
   if (loading) {
@@ -46,7 +46,7 @@ export default function DashboardLayout({ children }) {
       {/* Sidebar */}
       <aside className={`bg-white w-64 min-h-screen flex flex-col transition-all duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-30 md:relative md:translate-x-0`}>
         <div className="flex items-center justify-between h-16 px-4 border-b">
-          <h1 className="text-xl font-bold text-gray-800">Employee Dashboard</h1>
+          <h1 className="text-xl font-bold text-gray-800">Employer Dashboard</h1>
           <button onClick={() => setIsSidebarOpen(false)} className="md:hidden">
             <X className="h-6 w-6 text-gray-600" />
           </button>
@@ -81,6 +81,44 @@ export default function DashboardLayout({ children }) {
           <div className="flex items-center">
             {/* Add any header content here, e.g., notifications, user menu, etc. */}
           </div>
+          <div className="flex items-center">
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="flex items-center focus:outline-none"
+                >
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage src={userAvatar} alt="User Avatar" />
+                    <AvatarFallback>
+                      <User className="h-6 w-6" />
+                    </AvatarFallback>
+                  </Avatar>
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                    <Link href="/dashboard/employee/settings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      <Settings className="inline-block w-4 h-4 mr-2" />
+                      Settings
+                    </Link>
+                    <Link href="/dashboard/employee/account" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      <User className="inline-block w-4 h-4 mr-2" />
+                      My Account
+                    </Link>
+                    <Link href="/dashboard/employee/support" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      <HelpCircle className="inline-block w-4 h-4 mr-2" />
+                      Support & Resources
+                    </Link>
+                    <button
+                      onClick={handleSignOut}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      <LogOut className="inline-block w-4 h-4 mr-2" />
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
         </header>
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
           {children}
