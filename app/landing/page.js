@@ -1,14 +1,14 @@
 'use client'
 
-import { Star, Music, Calendar, Users, Zap, DollarSign, Clock, ArrowRight, Menu, ChevronLeft, ChevronRight, Flame, Bell } from 'lucide-react'
+import { Star, Music, Calendar, Users, Zap, DollarSign, Clock, ArrowRight, Menu, ChevronLeft, ChevronRight, Flame, Bell, MapPin } from 'lucide-react'
 import Image from "next/image"
 import Link from "next/link"
 import { useState, useEffect, useRef } from "react"
 
 const Button = ({ children, className = '', variant, ...props }) => {
-  const baseStyles = 'inline-flex items-center justify-center transition-colors'
+  const baseStyles = 'inline-flex items-center justify-center transition-colors text-base sm:text-lg whitespace-nowrap'
   const variantStyles = variant === 'outline' 
-    ? 'border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white' 
+    ? 'border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white bg-transparent' 
     : 'bg-orange-500 hover:bg-orange-600 text-white'
   
   return (
@@ -48,7 +48,7 @@ export default function LandingPage() {
   const [viewMode, setViewMode] = useState('talent')
 
   const roles = ["DJs", "Bartenders", "Event Staff", "Security", "Promoters"]
-  const logos = Array(10).fill("/placeholder-logo.svg") // Replace with actual logo paths
+  const logos = Array(20).fill("/Logo Main Orange.png") // Replace with actual logo paths
 
   const slides = [
     { title: "Create Your Profile", description: "Showcase your skills and experience in the nightlife industry.", image: "/placeholder.svg" },
@@ -72,10 +72,10 @@ export default function LandingPage() {
   ]
 
   const jobOpportunities = [
-    { title: "Bartender", venue: "Skyline Lounge", location: "New York, NY", image: "/placeholder.svg" },
-    { title: "DJ", venue: "Club Neon", location: "Los Angeles, CA", image: "/placeholder.svg" },
-    { title: "Security Guard", venue: "The Grand Ballroom", location: "Chicago, IL", image: "/placeholder.svg" },
-    { title: "Event Coordinator", venue: "Sunset Beach Resort", location: "Miami, FL", image: "/placeholder.svg" },
+    { title: "Bartender", venue: "Skyline Lounge", location: "New York, NY", salary: "$25-35/hr", type: "Full-Time" },
+    { title: "DJ", venue: "Club Neon", location: "Los Angeles, CA", salary: "$200-400/night", type: "Contract" },
+    { title: "Security Guard", venue: "The Grand Ballroom", location: "Chicago, IL", salary: "$20-30/hr", type: "Part-Time" },
+    { title: "Event Coordinator", venue: "Sunset Beach Resort", location: "Miami, FL", salary: "$45-55k/year", type: "Full-Time" },
   ]
 
   const logoRef = useRef(null)
@@ -121,9 +121,9 @@ export default function LandingPage() {
 
   return (
     <div className={`flex flex-col min-h-screen ${bgColor} ${textColor} font-['Montserrat',sans-serif] transition-colors duration-300`}>
-      <header className={`px-6 lg:px-10 h-20 flex items-center fixed w-full ${viewMode === 'talent' ? 'bg-black/80' : 'bg-white/80'} backdrop-blur-md z-50 transition-colors duration-300`}>
+      <header className={`px-4 sm:px-6 lg:px-10 h-20 flex items-center fixed w-full ${viewMode === 'talent' ? 'bg-black/80' : 'bg-white/80'} backdrop-blur-md z-50 transition-colors duration-300`}>
         <Link className="flex items-center justify-center" href="#">
-          <Image src="/edit logog o ball 2.png" alt="Patterned Logo" width={40} height={40} />
+          <Image src="/Logo Main Orange.png" alt="Patterned Logo" width={40} height={40} />
           <span className={`ml-2 text-2xl font-bold ${textColor}`}>Patterned</span>
         </Link>
         <nav className="ml-auto hidden lg:flex items-center space-x-8">
@@ -174,42 +174,44 @@ export default function LandingPage() {
       )}
 
       <main className="flex-1 pt-20">
-        <section className="w-full py-20 md:py-32 lg:py-48 xl:py-64 relative overflow-hidden">
+        <section className="w-full py-12 sm:py-20 md:py-32 lg:py-48 xl:py-64 relative overflow-hidden">
           <div className={`absolute inset-0 ${viewMode === 'talent' ? 'bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.8)_100%)]' : 'bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0)_0%,rgba(255,255,255,0.8)_100%)]'}`} />
-          <div className="container px-6 md:px-10 relative">
-            <div className="grid gap-12 lg:grid-cols-[1fr_500px] xl:grid-cols-[1fr_700px] items-center">
-              <div className="flex flex-col justify-center space-y-8">
+          <div className="container px-4 sm:px-6 md:px-10 relative">
+            <div className="grid gap-8 lg:gap-12 lg:grid-cols-[1fr_500px] xl:grid-cols-[1fr_700px] items-center">
+              <div className="flex flex-col justify-center space-y-6 sm:space-y-8">
                 <div className="space-y-4">
-                  <div className="flex items-center mb-6 space-x-4">
+                  <div className="flex flex-col sm:flex-row items-center gap-4 sm:space-x-4 mb-6">
                     <Button
-                      className={`${viewMode === 'talent' ? buttonBgColor : 'bg-gray-200 hover:bg-gray-300'} ${viewMode === 'talent' ? buttonTextColor : 'text-gray-800'} transition-colors text-lg px-8 py-3 rounded-full`}
+                      className={`w-full sm:w-auto ${viewMode === 'talent' ? buttonBgColor : 'bg-gray-200 hover:bg-gray-300'} ${viewMode === 'talent' ? buttonTextColor : 'text-gray-800'} px-6 py-2 sm:px-8 sm:py-3 rounded-full`}
                       onClick={() => toggleViewMode('talent')}
                     >
                       For Talent
                     </Button>
+                    
                     <Button
-                      className={`${viewMode === 'business' ? buttonBgColor : 'bg-gray-200 hover:bg-gray-300'} ${viewMode === 'business' ? buttonTextColor : 'text-gray-800'} transition-colors text-lg px-8 py-3 rounded-full`}
+                      variant="outline"
+                      className={`w-full sm:w-auto ${viewMode === 'business' ? 'rounded-full text-white hover:' : 'bg-transparent'} px-6 py-2 sm:px-8 sm:py-3 rounded-full`}
                       onClick={() => toggleViewMode('business')}
                     >
                       For Businesses
                     </Button>
                   </div>
-                  <h1 className="text-5xl md:text-6xl xl:text-7xl font-bold tracking-tighter leading-tight">
+                  <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold tracking-tighter leading-tight text-center sm:text-left">
                     <span className={accentColor}>Elevate</span> Your
                     <br />
                     {viewMode === 'talent' ? 'Nightlife Career' : 'Venue Experience'}
                   </h1>
-                  <p className="text-xl md:text-2xl text-gray-400 max-w-[700px]">
+                  <p className="text-lg sm:text-xl md:text-2xl text-gray-400 max-w-[700px] text-center sm:text-left">
                     {viewMode === 'talent' 
                       ? `Patterned is the premier platform connecting exceptional ${roles.join(", ")} with prestigious opportunities in the vibrant world of nightlife and entertainment. Showcase your talents, access exclusive gigs, and take your career to new heights.`
                       : "Patterned empowers nightlife businesses to discover, hire, and manage top-tier talent effortlessly. Elevate your venue's performance, streamline staffing, and create unforgettable experiences for your patrons."}
                   </p>
                 </div>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Button className={`${buttonBgColor} ${buttonTextColor} transition-colors text-xl px-10 py-6 rounded-full`}>
+                <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                  <Button className={`${buttonBgColor} ${buttonTextColor} px-6 py-3 sm:px-10 sm:py-6 rounded-full w-full sm:w-auto`}>
                     {viewMode === 'talent' ? 'Create Your Profile' : 'Post a Job'}
                   </Button>
-                  <Button variant="outline" className={`border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white transition-colors text-xl px-10 py-6 rounded-full`}>
+                  <Button variant="outline" className="px-6 py-3 sm:px-10 sm:py-6 rounded-full w-full sm:w-auto">
                     {viewMode === 'talent' ? 'Explore Opportunities' : 'Browse Talent'}
                   </Button>
                 </div>
@@ -230,63 +232,34 @@ export default function LandingPage() {
                   <span className="text-lg text-gray-400">Join 10,000+ {viewMode === 'talent' ? 'professionals' : 'venues'}</span>
                 </div>
               </div>
-              <div className="relative">
-                <div className={`absolute -top-8 -right-8 w-64 h-64 bg-orange-500/20 rounded-full blur-3xl`} />
-                <div className={`absolute -bottom-8 -left-8 w-64 h-64 bg-orange-500/20 rounded-full blur-3xl`} />
+              <div className="relative mt-8 lg:mt-0">
+                <div className={`absolute -top-8 -right-8 w-48 h-48 sm:w-64 sm:h-64 bg-orange-500/20 rounded-full blur-3xl`} />
+                <div className={`absolute -bottom-8 -left-8 w-48 h-48 sm:w-64 sm:h-64 bg-orange-500/20 rounded-full blur-3xl`} />
                 <Image
                   alt={viewMode === 'talent' ? "Nightlife Professional" : "Nightlife Venue"}
-                  className="mx-auto relative z-10 rounded-3xl object-cover"
+                  className="mx-auto relative z-10 rounded-3xl object-cover w-full h-auto"
                   height={800}
-                  src="/placeholder.svg"
+                  src={viewMode === 'talent' ? "/Red bar-girl bartender.png" : "/Black & White Bar-crowd.png"}
                   width={700}
                 />
-                <div className={`absolute top-8 -right-8 ${viewMode === 'talent' ? 'bg-black/80' : 'bg-white/80'} backdrop-blur-sm rounded-xl p-4 shadow-lg`}>
-                  <p className={`text-xl font-medium ${textColor}`}>{viewMode === 'talent' ? 'DJ' : 'Club Owner'}</p>
-                </div>
-                <div className={`absolute bottom-8 -left-8 ${viewMode === 'talent' ? 'bg-black/80' : 'bg-white/80'} backdrop-blur-sm rounded-xl p-4 shadow-lg`}>
-                  <p className={`text-xl font-medium ${textColor}`}>{viewMode === 'talent' ? 'Promoter' : 'Event Planner'}</p>
-                </div>
               </div>
             </div>
           </div>
         </section>
 
-        <section className={`w-full py-16 border-t ${viewMode === 'talent' ? 'border-gray-800' : 'border-gray-200'}`}>
-          <div className="container px-6 md:px-10 overflow-hidden">
-            <div className="flex flex-col items-center justify-center space-y-8">
-              <p className="text-lg text-gray-500 uppercase tracking-wide">Trusted by leading venues and brands</p>
-              <div className="w-full overflow-hidden">
-                <div ref={logoRef} className="flex gap-12 items-center" style={{width: '200%'}}>
-                  {[...logos, ...logos].map((logo, index) => (
-                    <div key={index} className="flex-shrink-0">
-                      <Image
-                        src={logo}
-                        alt={`Partner Logo ${index + 1}`}
-                        width={180}
-                        height={90}
-                        className="h-16 w-auto object-contain filter grayscale hover:grayscale-0 transition-all"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className={`w-full py-20 md:py-32 ${viewMode === 'talent' ? 'bg-zinc-900' : 'bg-gray-100'}`} id="features">
-          <div className="container px-6 md:px-10 mx-auto">
-            <div className="flex flex-col items-center justify-center space-y-8 text-center mb-16">
+        <section className={`w-full py-16 sm:py-20 md:py-32 ${viewMode === 'talent' ? 'bg-zinc-900' : 'bg-gray-100'}`} id="features">
+          <div className="container px-4 sm:px-6 md:px-10 mx-auto">
+            <div className="flex flex-col items-center justify-center space-y-6 sm:space-y-8 text-center mb-12 sm:mb-16">
               <div className="space-y-4">
-                <h2 className="text-4xl md:text-5xl font-bold tracking-tighter">Unlock Your Full Potential</h2>
-                <p className="text-xl md:text-2xl text-gray-400 max-w-[900px]">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter">Unlock Your Full Potential</h2>
+                <p className="text-lg sm:text-xl md:text-2xl text-gray-400 max-w-[900px]">
                   {viewMode === 'talent' 
                     ? "Discover why top talent chooses Patterned to skyrocket their careers in the dynamic nightlife industry."
                     : "Experience the power of Patterned's innovative features designed to revolutionize your talent acquisition and management."}
                 </p>
               </div>
             </div>
-            <div className="grid gap-12 lg:grid-cols-3">
+            <div className="grid gap-6 sm:gap-8 md:gap-12 md:grid-cols-2 lg:grid-cols-3">
               <Card className={`relative overflow-hidden ${viewMode === 'talent' ? 'bg-zinc-800/50' : 'bg-white'} p-8 border border-orange-500/20 rounded-2xl group hover:scale-105 transition-all duration-300`}>
                 {viewMode === 'talent' ? <DollarSign className={`h-16 w-16 ${accentColor} group-hover:scale-110 transition-transform duration-300`} /> : <Flame className={`h-16 w-16 ${accentColor} group-hover:scale-110 transition-transform duration-300`} />}
                 <h3 className={`mt-6 text-2xl font-bold ${accentColor}`}>{viewMode === 'talent' ? 'Premium Opportunities' : 'Hot Cue'}</h3>
@@ -379,19 +352,29 @@ export default function LandingPage() {
             </div>
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
               {jobOpportunities.map((job, index) => (
-                <Card key={index} className={`relative overflow-hidden ${viewMode === 'talent' ? 'bg-zinc-800/50' : 'bg-white'} border border-orange-500/20 rounded-2xl group hover:scale-105 transition-all duration-300`}>
-                  <Image
-                    src={job.image}
-                    alt={job.title}
-                    width={400}
-                    height={200}
-                    className="w-full h-48 object-cover"
-                  />
+                <Card 
+                  key={index} 
+                  className={`relative overflow-hidden ${viewMode === 'talent' ? 'bg-zinc-800/50' : 'bg-white'} border border-orange-500/20 rounded-2xl group hover:scale-105 transition-all duration-300`}
+                >
                   <div className="p-6">
-                    <h3 className={`text-2xl font-bold ${accentColor}`}>{job.title}</h3>
-                    <p className="mt-2 text-lg text-gray-400">{job.venue}</p>
-                    <p className="mt-1 text-sm text-gray-500">{job.location}</p>
-                    <Button className={`mt-4 ${buttonBgColor} ${buttonTextColor} transition-colors`}>
+                    <div className="flex justify-between items-start mb-4">
+                      <div>
+                        <h3 className={`text-2xl font-bold ${accentColor}`}>{job.title}</h3>
+                        <p className="mt-2 text-lg text-gray-400">{job.venue}</p>
+                      </div>
+                      <span className={`px-3 py-1 rounded-full text-sm ${viewMode === 'talent' ? 'bg-orange-500/20 text-orange-500' : 'bg-orange-100 text-orange-600'}`}>
+                        {job.type}
+                      </span>
+                    </div>
+                    <div className="space-y-2">
+                      <p className="text-sm text-gray-500 flex items-center gap-2">
+                        <DollarSign className="h-4 w-4" /> {job.salary}
+                      </p>
+                      <p className="text-sm text-gray-500 flex items-center gap-2">
+                        <MapPin className="h-4 w-4" /> {job.location}
+                      </p>
+                    </div>
+                    <Button className={`mt-6 w-full ${buttonBgColor} ${buttonTextColor} transition-colors rounded-full`}>
                       Apply Now
                     </Button>
                   </div>
@@ -408,13 +391,13 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className={`w-full py-20 md:py-32 ${viewMode === 'talent' ? 'bg-black' : 'bg-white'}`} id="testimonials">
-          <div className="container px-6 md:px-10 mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tighter text-center mb-16">Success Stories</h2>
-            <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+        <section className={`w-full py-16 sm:py-20 md:py-32 ${viewMode === 'talent' ? 'bg-zinc-900' : 'bg-white'}`} id="testimonials">
+          <div className="container px-4 sm:px-6 md:px-10 mx-auto">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter text-center mb-12 sm:mb-16">Success Stories</h2>
+            <div className="grid gap-6 sm:gap-8 md:gap-12 md:grid-cols-2 lg:grid-cols-4">
               {testimonials.map((testimonial, index) => (
-                <Card key={index} className={`${viewMode === 'talent' ? 'bg-zinc-900/50' : 'bg-gray-100'} p-8 border border-orange-500/20 rounded-2xl hover:shadow-lg hover:shadow-orange-500/10 transition-all duration-300`}>
-                  <p className={`text-xl ${viewMode === 'talent' ? 'text-gray-300' : 'text-gray-700'} italic mb-6`}>
+                <Card key={index} className={`${viewMode === 'talent' ? 'bg-zinc-900/50' : 'bg-gray-100'} p-6 sm:p-8 border border-orange-500/20 rounded-2xl hover:shadow-lg hover:shadow-orange-500/10 transition-all duration-300`}>
+                  <p className={`text-base sm:text-lg lg:text-xl ${viewMode === 'talent' ? 'text-gray-300' : 'text-gray-700'} italic mb-6`}>
                     "{testimonial.quote}"
                   </p>
                   <div className="flex items-center">
@@ -436,27 +419,27 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className={`w-full py-20 md:py-32 ${viewMode === 'talent' ? 'bg-gradient-to-t from-zinc-900 to-black' : 'bg-gradient-to-t from-gray-100 to-white'}`}>
-          <div className="container px-6 md:px-10 mx-auto">
-            <div className="flex flex-col items-center justify-center space-y-8 text-center">
+        <section className={`w-full py-16 sm:py-20 md:py-32 ${viewMode === 'talent' ? 'bg-gradient-to-t from-zinc-900 to-black' : 'bg-gradient-to-t from-gray-100 to-white'}`}>
+          <div className="container px-4 sm:px-6 md:px-10 mx-auto">
+            <div className="flex flex-col items-center justify-center space-y-6 sm:space-y-8 text-center">
               <div className="space-y-4">
-                <h2 className="text-4xl md:text-5xl font-bold tracking-tighter">Ready to Transform Your {viewMode === 'talent' ? 'Career' : 'Venue'}?</h2>
-                <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter">Ready to Transform Your {viewMode === 'talent' ? 'Career' : 'Venue'}?</h2>
+                <p className="text-lg sm:text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto">
                   {viewMode === 'talent'
                     ? "Join thousands of top professionals finding their next big opportunity in the nightlife industry. Your dream gig is just a click away."
                     : "Connect with exceptional talent and revolutionize your staffing process. Elevate your venue's performance and create unforgettable experiences for your patrons."}
                 </p>
               </div>
               <div className="w-full max-w-2xl space-y-4">
-                <form className="flex space-x-4">
+                <form className="flex flex-col sm:flex-row gap-4">
                   <Input
-                    className={`flex-1 ${viewMode === 'talent' ? 'bg-zinc-800/50 border-orange-500/20' : 'bg-white border-orange-500/20'} text-lg placeholder-gray-500 focus:border-orange-500 focus:ring-orange-500 h-16 rounded-full`}
+                    className={`flex-1 ${viewMode === 'talent' ? 'bg-zinc-800/50 border-orange-500/20' : 'bg-white border-orange-500/20'} text-base sm:text-lg placeholder-gray-500 focus:border-orange-500 focus:ring-orange-500 h-12 sm:h-16 rounded-full`}
                     placeholder="Enter your email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
-                  <Button className={`${buttonBgColor} ${buttonTextColor} transition-colors text-xl px-10 h-16 rounded-full`}>
+                  <Button className={`${buttonBgColor} ${buttonTextColor} text-base sm:text-xl px-6 sm:px-10 h-12 sm:h-16 rounded-full w-full sm:w-auto`}>
                     Get Started
                   </Button>
                 </form>
@@ -472,13 +455,13 @@ export default function LandingPage() {
         </section>
       </main>
 
-      <footer className={`${viewMode === 'talent' ? 'bg-zinc-900' : 'bg-gray-100'} py-12 px-6 md:px-10 border-t ${viewMode === 'talent' ? 'border-gray-800' : 'border-gray-200'}`}>
+      <footer className={`${viewMode === 'talent' ? 'bg-zinc-900' : 'bg-gray-100'} py-8 sm:py-12 px-4 sm:px-6 md:px-10 border-t ${viewMode === 'talent' ? 'border-gray-800' : 'border-gray-200'}`}>
         <div className="container mx-auto flex flex-col lg:flex-row justify-between items-center">
-          <div className="flex items-center mb-8 lg:mb-0">
-            <Image src="/edit logog o ball 2.png" alt="Patterned Logo" width={40} height={40} />
-            <span className={`text-3xl font-bold ml-2 ${textColor}`}>Patterned</span>
+          <div className="flex items-center mb-6 lg:mb-0">
+            <Image src="/Logo Main Orange.png" alt="Patterned Logo" width={32} height={32} className="sm:w-10 sm:h-10" />
+            <span className={`text-2xl sm:text-3xl font-bold ml-2 ${textColor}`}>Patterned</span>
           </div>
-          <nav className="flex flex-wrap justify-center lg:justify-end gap-8">
+          <nav className="flex flex-wrap justify-center lg:justify-end gap-4 sm:gap-8">
             <Link href="#" className={`${textColor} hover:${accentColor} transition-colors`}>About Us</Link>
             <Link href="#" className={`${textColor} hover:${accentColor} transition-colors`}>Careers</Link>
             <Link href="#" className={`${textColor} hover:${accentColor} transition-colors`}>Contact</Link>
