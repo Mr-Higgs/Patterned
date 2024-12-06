@@ -7,6 +7,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-montserrat)', 'sans-serif'],
+        montserrat: ['Montserrat', 'sans-serif'],
+      },
       colors: {
         primary: {
           DEFAULT: '#f15922',//#f15922
@@ -26,7 +30,7 @@ module.exports = {
         },
         accent: '#ff7816',
         background: '#FFFFFF',
-        text: '#000000',
+        text: '#000000',//#
       },
     },
   },

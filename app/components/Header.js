@@ -31,8 +31,13 @@ export default function Header() {
             </Link>
             <ul className="flex space-x-4">
               <li>
-                <Link href="/" className="hover:text-accent">
+                <Link href="/landing" className="hover:text-accent">
                   Home
+                </Link>
+              </li>
+              <li>
+                <Link href="/" className="hover:text-accent">
+                  App
                 </Link>
               </li>
               <li>

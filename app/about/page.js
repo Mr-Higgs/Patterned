@@ -74,68 +74,101 @@ export default function AboutUsPage() {
                     >
                         <motion.div 
                             variants={cardVariants}
-                            whileHover={{ scale: 1.02 }}
-                            className="bg-white p-6 rounded-xl shadow-lg border-l-4 border-primary hover:shadow-xl transition-shadow"
+                            whileHover={{ y: -5, scale: 1.02 }}
+                            className={`relative overflow-hidden bg-white rounded-2xl shadow-lg group`}
                         >
-                            <h3 className="text-xl font-semibold text-primary mb-3">For Event Organizers</h3>
-                            <ul className="text-neutral-stone/80 space-y-2">
-                                <li className="flex items-center gap-2">
-                                    <span className="text-primary">•</span> Access to verified event professionals
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-primary">•</span> Streamlined hiring process
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-primary">•</span> Quality-assured staff
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-primary">•</span> Real-time availability
-                                </li>
-                            </ul>
+                            <div className="absolute inset-0 bg-gradient-to-b from-orange-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                            
+                            <div className="relative p-8">
+                                <div className="mb-6 relative">
+                                    <div className="absolute inset-0 bg-orange-500/10 rounded-full w-16 h-16 animate-pulse" />
+                                    <div className="relative flex items-center justify-center w-16 h-16 rounded-full bg-orange-500/20">
+                                        <i className="fas fa-building-user text-3xl text-orange-500"></i>
+                                    </div>
+                                </div>
+
+                                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-orange-500 transition-colors">
+                                    For Event Organizers
+                                </h3>
+                                <ul className="space-y-4">
+                                    {['Access to verified event professionals', 'Streamlined hiring process', 'Quality-assured staff', 'Real-time availability'].map((item, idx) => (
+                                        <li key={idx} className="flex items-center gap-3 text-gray-600">
+                                            <span className="flex-shrink-0 w-6 h-6 rounded-full bg-orange-500/20 flex items-center justify-center">
+                                                <span className="text-orange-500 text-sm">✓</span>
+                                            </span>
+                                            <span className="text-sm">{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-orange-500 to-orange-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+                            </div>
                         </motion.div>
 
                         <motion.div 
                             variants={cardVariants}
-                            whileHover={{ scale: 1.02 }}
-                            className="bg-white p-6 rounded-xl shadow-lg border-l-4 border-secondary hover:shadow-xl transition-shadow"
+                            whileHover={{ y: -5, scale: 1.02 }}
+                            className={`relative overflow-hidden bg-white rounded-2xl shadow-lg group`}
                         >
-                            <h3 className="text-xl font-semibold text-secondary mb-3">For Event Staff</h3>
-                            <ul className="text-neutral-stone/80 space-y-2">
-                                <li className="flex items-center gap-2">
-                                    <span className="text-secondary">•</span> Premium event opportunities
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-secondary">•</span> Flexible scheduling
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-secondary">•</span> Industry networking
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-secondary">•</span> Professional growth
-                                </li>
-                            </ul>
+                            <div className="absolute inset-0 bg-gradient-to-b from-orange-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                            
+                            <div className="relative p-8">
+                                <div className="mb-6 relative">
+                                    <div className="absolute inset-0 bg-orange-500/10 rounded-full w-16 h-16 animate-pulse" />
+                                    <div className="relative flex items-center justify-center w-16 h-16 rounded-full bg-orange-500/20">
+                                        <i className="fas fa-user-tie text-3xl text-orange-500"></i>
+                                    </div>
+                                </div>
+
+                                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-orange-500 transition-colors">
+                                    For Event Staff
+                                </h3>
+                                <ul className="space-y-4">
+                                    {['Premium event opportunities', 'Flexible scheduling', 'Industry networking', 'Professional growth'].map((item, idx) => (
+                                        <li key={idx} className="flex items-center gap-3 text-gray-600">
+                                            <span className="flex-shrink-0 w-6 h-6 rounded-full bg-orange-500/20 flex items-center justify-center">
+                                                <span className="text-orange-500 text-sm">✓</span>
+                                            </span>
+                                            <span className="text-sm">{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-orange-500 to-orange-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+                            </div>
                         </motion.div>
 
                         <motion.div 
                             variants={cardVariants}
-                            whileHover={{ scale: 1.02 }}
-                            className="bg-white p-6 rounded-xl shadow-lg border-l-4 border-accent hover:shadow-xl transition-shadow"
+                            whileHover={{ y: -5, scale: 1.02 }}
+                            className={`relative overflow-hidden bg-white rounded-2xl shadow-lg group`}
                         >
-                            <h3 className="text-xl font-semibold text-accent mb-3">Our Values</h3>
-                            <ul className="text-neutral-stone/80 space-y-2">
-                                <li className="flex items-center gap-2">
-                                    <span className="text-accent">•</span> Excellence in Service
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-accent">•</span> Community Building
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-accent">•</span> Industry Innovation
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-accent">•</span> Reliability & Trust
-                                </li>
-                            </ul>
+                            <div className="absolute inset-0 bg-gradient-to-b from-orange-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                            
+                            <div className="relative p-8">
+                                <div className="mb-6 relative">
+                                    <div className="absolute inset-0 bg-orange-500/10 rounded-full w-16 h-16 animate-pulse" />
+                                    <div className="relative flex items-center justify-center w-16 h-16 rounded-full bg-orange-500/20">
+                                        <i className="fas fa-star text-3xl text-orange-500"></i>
+                                    </div>
+                                </div>
+
+                                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-orange-500 transition-colors">
+                                    Our Values
+                                </h3>
+                                <ul className="space-y-4">
+                                    {['Excellence in Service', 'Community Building', 'Industry Innovation', 'Reliability & Trust'].map((item, idx) => (
+                                        <li key={idx} className="flex items-center gap-3 text-gray-600">
+                                            <span className="flex-shrink-0 w-6 h-6 rounded-full bg-orange-500/20 flex items-center justify-center">
+                                                <span className="text-orange-500 text-sm">✓</span>
+                                            </span>
+                                            <span className="text-sm">{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-orange-500 to-orange-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+                            </div>
                         </motion.div>
                     </motion.section>
 

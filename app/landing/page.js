@@ -39,7 +39,7 @@ export default function LandingPage() {
         buttonTextColor={buttonTextColor}
       />
 
-      <main className="flex-1 pt-20">
+      <main className="flex-1 pt-5">
         <Hero 
           viewMode={viewMode}
           toggleViewMode={toggleViewMode}

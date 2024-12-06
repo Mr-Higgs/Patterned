@@ -3,8 +3,18 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import { useState } from 'react'
 
 export default function Home() {
+  const [viewMode, setViewMode] = useState('talent')
+
+  // Colors based on viewMode
+  const bgColor = viewMode === 'talent' ? 'bg-black' : 'bg-white'
+  const textColor = viewMode === 'talent' ? 'text-white' : 'text-gray-900'
+  const accentColor = 'text-orange-500'
+  const buttonBgColor = 'bg-orange-500 hover:bg-orange-600'
+  const buttonTextColor = 'text-white'
+
   const fadeIn = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
@@ -20,7 +30,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-neutral-cream">
+    <div className={`flex flex-col min-h-screen ${bgColor} ${textColor} transition-colors duration-300`}>
       <Header />
       
       <main className="flex-grow">
@@ -29,38 +39,60 @@ export default function Home() {
           initial="initial"
           animate="animate"
           variants={staggerContainer}
-          className="relative bg-gradient-to-br from-primary/90 to-primary py-20 px-4 sm:px-6 lg:px-8"
+          className={`relative ${viewMode === 'talent' ? 'bg-black' : 'bg-white'} py-20 px-4 sm:px-6 lg:px-8`}
         >
           <div className="absolute inset-0 bg-[url('/pattern-bg.png')] opacity-10"></div>
           <div className="max-w-7xl mx-auto relative">
-            <motion.div 
-              variants={fadeIn}
-              className="text-center"
-            >
-              <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
+            {/* View Mode Toggle */}
+            <div className="flex justify-center mb-8">
+              <div className="bg-orange-500/10 p-1 rounded-full inline-flex">
+                <button
+                  onClick={() => setViewMode('talent')}
+                  className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
+                    viewMode === 'talent' 
+                      ? 'bg-orange-500 text-white' 
+                      : `${textColor} hover:bg-orange-500/10`
+                  }`}
+                >
+                  For Talent
+                </button>
+                <button
+                  onClick={() => setViewMode('business')}
+                  className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
+                    viewMode === 'business' 
+                      ? 'bg-orange-500 text-white' 
+                      : `${textColor} hover:bg-orange-500/10`
+                  }`}
+                >
+                  For Businesses
+                </button>
+              </div>
+            </div>
+
+            <motion.div variants={fadeIn} className="text-center">
+              <h1 className={`text-5xl md:text-6xl font-bold ${textColor} mb-6`}>
                 Premium Event Staffing
               </h1>
-              <p className="text-xl text-white/90 max-w-2xl mx-auto mb-8">
-                Connect with top-tier event professionals and elevate your events to new heights
+              <p className={`text-xl ${textColor}/90 max-w-2xl mx-auto mb-8`}>
+                {viewMode === 'talent' 
+                  ? 'Find exciting opportunities and grow your career in the event industry'
+                  : 'Connect with top-tier event professionals and elevate your events to new heights'
+                }
               </p>
-            </motion.div>
-
-            <motion.div 
-              variants={fadeIn}
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-            >
-              <Link 
-                href="/auth/login"
-                className="px-8 py-3 bg-white text-primary font-semibold rounded-lg shadow-lg hover:bg-neutral-cream transition-colors"
-              >
-                Go to Dashboard
-              </Link>
-              <Link 
-                href="/services"
-                className="px-8 py-3 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors"
-              >
-                Explore Services
-              </Link>
+              <motion.div variants={fadeIn} className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <Link 
+                  href={viewMode === 'talent' ? "/auth/signup?type=talent" : "/auth/signup?type=business"}
+                  className={`px-8 py-3 ${buttonBgColor} ${buttonTextColor} font-semibold rounded-lg shadow-lg transition-colors`}
+                >
+                  {viewMode === 'talent' ? 'Join as Talent' : 'Start Hiring'}
+                </Link>
+                <Link 
+                  href="/services"
+                  className={`px-8 py-3 bg-transparent border-2 border-orange-500 ${textColor} font-semibold rounded-lg hover:bg-orange-500/10 transition-colors`}
+                >
+                  Learn More
+                </Link>
+              </motion.div>
             </motion.div>
           </div>
         </motion.section>
@@ -74,47 +106,155 @@ export default function Home() {
             className="max-w-7xl mx-auto"
           >
             <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-white p-8 rounded-xl shadow-lg border-l-4 border-primary">
-                <div className="text-primary text-3xl mb-4">
-                  <i className="fas fa-calendar-check"></i>
-                </div>
-                <h3 className="text-xl font-semibold text-neutral-stone mb-3">
-                  Upcoming Events
-                </h3>
-                <p className="text-neutral-stone/80">
-                  View and manage your scheduled events. Stay organized and prepared.
-                </p>
-              </div>
+              {viewMode === 'talent' ? (
+                <>
+                  {/* Flexible Schedule Card */}
+                  <motion.div 
+                    whileHover={{ y: -5, scale: 1.02 }}
+                    className={`relative overflow-hidden ${bgColor} rounded-2xl shadow-lg group`}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-b from-orange-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="relative p-8">
+                      <div className="mb-6 relative">
+                        <div className="absolute inset-0 bg-orange-500/10 rounded-full w-16 h-16 animate-pulse" />
+                        <div className="relative flex items-center justify-center w-16 h-16 rounded-full bg-orange-500/20">
+                          <i className="fas fa-calendar-check text-3xl text-orange-500"></i>
+                        </div>
+                      </div>
+                      <h3 className={`text-2xl font-bold ${textColor} mb-4 group-hover:text-orange-500 transition-colors`}>
+                        Flexible Schedule
+                      </h3>
+                      <p className={`${textColor}/80 mb-8`}>
+                        Choose when and where you want to work. Take control of your career.
+                      </p>
+                      <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-orange-500 to-orange-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+                    </div>
+                  </motion.div>
 
-              <div className="bg-white p-8 rounded-xl shadow-lg border-l-4 border-secondary">
-                <div className="text-secondary text-3xl mb-4">
-                  <i className="fas fa-user-friends"></i>
-                </div>
-                <h3 className="text-xl font-semibold text-neutral-stone mb-3">
-                  Staff Directory
-                </h3>
-                <p className="text-neutral-stone/80">
-                  Browse our curated list of professional event staff and talent.
-                </p>
-              </div>
+                  {/* Competitive Pay Card */}
+                  <motion.div 
+                    whileHover={{ y: -5, scale: 1.02 }}
+                    className={`relative overflow-hidden ${bgColor} rounded-2xl shadow-lg group`}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-b from-orange-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="relative p-8">
+                      <div className="mb-6 relative">
+                        <div className="absolute inset-0 bg-orange-500/10 rounded-full w-16 h-16 animate-pulse" />
+                        <div className="relative flex items-center justify-center w-16 h-16 rounded-full bg-orange-500/20">
+                          <i className="fas fa-dollar-sign text-3xl text-orange-500"></i>
+                        </div>
+                      </div>
+                      <h3 className={`text-2xl font-bold ${textColor} mb-4 group-hover:text-orange-500 transition-colors`}>
+                        Competitive Pay
+                      </h3>
+                      <p className={`${textColor}/80 mb-8`}>
+                        Set your own rates and get paid quickly for your expertise.
+                      </p>
+                      <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-orange-500 to-orange-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+                    </div>
+                  </motion.div>
 
-              <div className="bg-white p-8 rounded-xl shadow-lg border-l-4 border-accent">
-                <div className="text-accent text-3xl mb-4">
-                  <i className="fas fa-chart-line"></i>
-                </div>
-                <h3 className="text-xl font-semibold text-neutral-stone mb-3">
-                  Analytics
-                </h3>
-                <p className="text-neutral-stone/80">
-                  Track your event performance and staff metrics in real-time.
-                </p>
-              </div>
+                  {/* Profile Building Card */}
+                  <motion.div 
+                    whileHover={{ y: -5, scale: 1.02 }}
+                    className={`relative overflow-hidden ${bgColor} rounded-2xl shadow-lg group`}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-b from-orange-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="relative p-8">
+                      <div className="mb-6 relative">
+                        <div className="absolute inset-0 bg-orange-500/10 rounded-full w-16 h-16 animate-pulse" />
+                        <div className="relative flex items-center justify-center w-16 h-16 rounded-full bg-orange-500/20">
+                          <i className="fas fa-user-circle text-3xl text-orange-500"></i>
+                        </div>
+                      </div>
+                      <h3 className={`text-2xl font-bold ${textColor} mb-4 group-hover:text-orange-500 transition-colors`}>
+                        Build Your Profile
+                      </h3>
+                      <p className={`${textColor}/80 mb-8`}>
+                        Showcase your experience and get noticed by top employers.
+                      </p>
+                      <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-orange-500 to-orange-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+                    </div>
+                  </motion.div>
+                </>
+              ) : (
+                <>
+                  {/* Verified Talent Card */}
+                  <motion.div 
+                    whileHover={{ y: -5, scale: 1.02 }}
+                    className={`relative overflow-hidden ${bgColor} rounded-2xl shadow-lg group`}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-b from-orange-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="relative p-8">
+                      <div className="mb-6 relative">
+                        <div className="absolute inset-0 bg-orange-500/10 rounded-full w-16 h-16 animate-pulse" />
+                        <div className="relative flex items-center justify-center w-16 h-16 rounded-full bg-orange-500/20">
+                          <i className="fas fa-user-check text-3xl text-orange-500"></i>
+                        </div>
+                      </div>
+                      <h3 className={`text-2xl font-bold ${textColor} mb-4 group-hover:text-orange-500 transition-colors`}>
+                        Verified Talent
+                      </h3>
+                      <p className={`${textColor}/80 mb-8`}>
+                        Access our pre-vetted pool of experienced event professionals.
+                      </p>
+                      <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-orange-500 to-orange-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+                    </div>
+                  </motion.div>
+
+                  {/* Quick Booking Card */}
+                  <motion.div 
+                    whileHover={{ y: -5, scale: 1.02 }}
+                    className={`relative overflow-hidden ${bgColor} rounded-2xl shadow-lg group`}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-b from-orange-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="relative p-8">
+                      <div className="mb-6 relative">
+                        <div className="absolute inset-0 bg-orange-500/10 rounded-full w-16 h-16 animate-pulse" />
+                        <div className="relative flex items-center justify-center w-16 h-16 rounded-full bg-orange-500/20">
+                          <i className="fas fa-bolt text-3xl text-orange-500"></i>
+                        </div>
+                      </div>
+                      <h3 className={`text-2xl font-bold ${textColor} mb-4 group-hover:text-orange-500 transition-colors`}>
+                        Quick Booking
+                      </h3>
+                      <p className={`${textColor}/80 mb-8`}>
+                        Find and book the right staff for your events in minutes.
+                      </p>
+                      <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-orange-500 to-orange-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+                    </div>
+                  </motion.div>
+
+                  {/* Analytics Card */}
+                  <motion.div 
+                    whileHover={{ y: -5, scale: 1.02 }}
+                    className={`relative overflow-hidden ${bgColor} rounded-2xl shadow-lg group`}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-b from-orange-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="relative p-8">
+                      <div className="mb-6 relative">
+                        <div className="absolute inset-0 bg-orange-500/10 rounded-full w-16 h-16 animate-pulse" />
+                        <div className="relative flex items-center justify-center w-16 h-16 rounded-full bg-orange-500/20">
+                          <i className="fas fa-chart-line text-3xl text-orange-500"></i>
+                        </div>
+                      </div>
+                      <h3 className={`text-2xl font-bold ${textColor} mb-4 group-hover:text-orange-500 transition-colors`}>
+                        Analytics
+                      </h3>
+                      <p className={`${textColor}/80 mb-8`}>
+                        Track performance and manage your event staff efficiently.
+                      </p>
+                      <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-orange-500 to-orange-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+                    </div>
+                  </motion.div>
+                </>
+              )}
             </div>
           </motion.div>
         </section>
 
         {/* Call to Action */}
-        <section className="bg-neutral-sand py-16 px-4 sm:px-6 lg:px-8">
+        <section className={`${bgColor} py-16 px-4 sm:px-6 lg:px-8`}>
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -122,16 +262,21 @@ export default function Home() {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto text-center"
           >
-            <h2 className="text-3xl font-bold text-primary mb-6">
-              Ready to Transform Your Events?
+            <h2 className={`text-3xl font-bold ${textColor} mb-6`}>
+              {viewMode === 'talent' 
+                ? 'Ready to Start Your Journey?' 
+                : 'Ready to Transform Your Events?'
+              }
             </h2>
-            <p className="text-neutral-stone/80 text-lg mb-8 max-w-2xl mx-auto">
-              Join the community of event organizers and professionals who are 
-              revolutionizing the industry with Patterned.
+            <p className={`${textColor}/80 text-lg mb-8 max-w-2xl mx-auto`}>
+              {viewMode === 'talent'
+                ? 'Join the community of event professionals and start finding exciting opportunities today.'
+                : 'Join the community of event organizers who are revolutionizing the industry with Patterned.'
+              }
             </p>
             <Link 
-              href="/contact"
-              className="inline-block px-8 py-3 bg-primary text-white font-semibold rounded-lg shadow-lg hover:bg-primary-dark transition-colors"
+              href={viewMode === 'talent' ? "/auth/signup?type=talent" : "/auth/signup?type=business"}
+              className={`inline-block px-8 py-3 ${buttonBgColor} ${buttonTextColor} font-semibold rounded-lg shadow-lg transition-colors`}
             >
               Get Started Today
             </Link>
