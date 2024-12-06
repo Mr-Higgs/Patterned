@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-
+import { Button } from '../components/ui/Button'
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
@@ -43,6 +43,9 @@ export default function Header() {
               <li>
                 <Link href="/contact" className="hover:text-accent">
                   Contact
+                </Link>
+                <Link href="/auth/signup" className="p-2 hover:text-accent">
+                  Sign Up
                 </Link>
               </li>
             </ul>
