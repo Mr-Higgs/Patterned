@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Briefcase, Calendar, DollarSign, User, LogOut, Menu, X, Settings, HelpCircle, HomeIcon } from 'lucide-react'
+import { Briefcase, Calendar, DollarSign, User, LogOut, Menu, X, Settings, HelpCircle, HomeIcon, MessageCircle } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar"
 import { UserProvider, useUser } from '../../context/useContext'
 
@@ -81,7 +81,18 @@ function DashboardContent({ children }) {
               </button>
               <div className="text-xl font-semibold text-gray-800">Employer Dashboard</div>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center space-x-4">
+              {/* Messages Button */}
+              <Link 
+                href="/dashboard/employer/messages"
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors relative"
+              >
+                <MessageCircle className="h-6 w-6 text-gray-600" />
+                {/* Optional: Add notification badge */}
+                <span className="absolute top-0 right-0 h-2 w-2 bg-primary rounded-full"></span>
+              </Link>
+
+              {/* Avatar Dropdown remains the same */}
               <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
